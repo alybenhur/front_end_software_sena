@@ -1,122 +1,132 @@
 <template>
-  <div class="glass-card">
+  <div class="register-form-wrap">
 
-    <!-- Cabecera SENA -->
-    <div class="glass-header">
-      <div class="header-brand">
-        <v-icon size="30" class="header-icon">mdi-book-education-outline</v-icon>
-        <span class="header-title">Software Management</span>
+    <!-- Alert de error -->
+    <div v-if="error" class="register-alert">
+      {{ error }}
+      <button class="register-alert-close" aria-label="Cerrar" @click="error = ''">✕</button>
+    </div>
+
+    <form class="register-form" @submit.prevent="handleRegister">
+
+      <!-- Nombre + Apellido -->
+      <div class="input-row">
+        <div class="input-group">
+          <span class="input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+          </span>
+          <input
+            v-model="form.firstName"
+            type="text"
+            placeholder="Nombre"
+            class="register-input"
+            autocomplete="given-name"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <span class="input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+          </span>
+          <input
+            v-model="form.lastName"
+            type="text"
+            placeholder="Apellido"
+            class="register-input"
+            autocomplete="family-name"
+            required
+          />
+        </div>
       </div>
-      <div class="header-divider" />
-      <h2 class="header-subtitle">Crear cuenta</h2>
-      <p class="header-desc">Completa el formulario para registrarte</p>
-    </div>
 
-    <!-- Cuerpo del formulario -->
-    <div class="glass-body">
-
-      <v-alert
-        v-if="error"
-        type="error"
-        variant="tonal"
-        class="mb-4"
-        rounded="lg"
-        closable
-        @click:close="error = ''"
-      >
-        {{ error }}
-      </v-alert>
-
-      <v-form @submit.prevent="handleRegister">
-
-        <v-row dense class="mb-1">
-          <v-col cols="6">
-            <v-text-field
-              v-model="form.firstName"
-              label="Nombre"
-              prepend-inner-icon="mdi-account-outline"
-              variant="outlined"
-              density="comfortable"
-              color="teal-darken-2"
-              rounded="lg"
-              :rules="[v => !!v || 'Requerido']"
-            />
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              v-model="form.lastName"
-              label="Apellido"
-              prepend-inner-icon="mdi-account-outline"
-              variant="outlined"
-              density="comfortable"
-              color="teal-darken-2"
-              rounded="lg"
-              :rules="[v => !!v || 'Requerido']"
-            />
-          </v-col>
-        </v-row>
-
-        <v-text-field
+      <!-- Correo electrónico -->
+      <div class="input-group">
+        <span class="input-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2" />
+            <path d="M2 7l10 7 10-7" />
+          </svg>
+        </span>
+        <input
           v-model="form.email"
-          label="Correo electrónico"
           type="email"
-          prepend-inner-icon="mdi-email-outline"
-          variant="outlined"
-          density="comfortable"
-          color="teal-darken-2"
-          class="mb-3"
-          rounded="lg"
-          :rules="[v => !!v || 'Requerido']"
+          placeholder="Correo electrónico"
+          class="register-input"
+          autocomplete="email"
+          required
         />
+      </div>
 
-        <v-text-field
+      <!-- Teléfono -->
+      <div class="input-group">
+        <span class="input-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3.09 4.18 2 2 0 0 1 5.07 2h3a2 2 0 0 1 2 1.72c.13 1 .37 1.97.72 2.9a2 2 0 0 1-.45 2.11L9.1 9.91a16 16 0 0 0 5 5l1.18-1.18a2 2 0 0 1 2.11-.45c.93.35 1.9.59 2.9.72A2 2 0 0 1 22 16.92z" />
+          </svg>
+        </span>
+        <input
           v-model="form.phone"
-          label="Teléfono (opcional)"
-          prepend-inner-icon="mdi-phone-outline"
-          variant="outlined"
-          density="comfortable"
-          color="teal-darken-2"
-          class="mb-3"
-          rounded="lg"
+          type="tel"
+          placeholder="Teléfono (opcional)"
+          class="register-input"
+          autocomplete="tel"
         />
+      </div>
 
-        <v-text-field
+      <!-- Contraseña -->
+      <div class="input-group">
+        <span class="input-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </span>
+        <input
           v-model="form.password"
-          label="Contraseña"
           :type="showPass ? 'text' : 'password'"
-          prepend-inner-icon="mdi-lock-outline"
-          :append-inner-icon="showPass ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-          variant="outlined"
-          density="comfortable"
-          color="teal-darken-2"
-          class="mb-5"
-          rounded="lg"
-          :rules="[v => !!v || 'Requerido', v => v.length >= 6 || 'Mínimo 6 caracteres']"
-          @click:append-inner="showPass = !showPass"
+          placeholder="Contraseña"
+          class="register-input"
+          autocomplete="new-password"
+          required
         />
-
-        <v-btn
-          type="submit"
-          size="large"
-          block
-          :loading="loading"
-          class="register-btn"
-          rounded="lg"
+        <button
+          type="button"
+          class="input-eye"
+          tabindex="-1"
+          :aria-label="showPass ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          @click="showPass = !showPass"
         >
-          <v-icon start size="18">mdi-account-plus-outline</v-icon>
-          Registrarse
-        </v-btn>
+          <svg v-if="!showPass" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <svg v-else width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+            <line x1="1" y1="1" x2="23" y2="23" />
+          </svg>
+        </button>
+      </div>
 
-      </v-form>
-    </div>
+      <!-- Botón -->
+      <button type="submit" class="register-btn" :disabled="loading">
+        <span v-if="loading" class="register-spinner" />
+        <span v-else>Registrarse</span>
+      </button>
 
-    <!-- Pie de la tarjeta -->
-    <div class="glass-footer">
-      <span class="footer-text">¿Ya tienes cuenta?</span>
-      <v-btn to="/login" variant="text" size="small" class="footer-link ml-1" rounded="lg">
-        Inicia sesión
-      </v-btn>
-    </div>
+    </form>
+
+    <!-- Inicio de sesión -->
+    <p class="login-row">
+      ¿Ya tienes cuenta?
+      <NuxtLink to="/login" class="login-link">Inicia sesión</NuxtLink>
+    </p>
 
   </div>
 </template>
@@ -147,97 +157,176 @@ async function handleRegister() {
 </script>
 
 <style scoped>
-/* ── Tarjeta de vidrio esmerilado ── */
-.glass-card {
-  background: rgba(255, 255, 255, 0.91) !important;
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  border-radius: 20px;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28), 0 2px 8px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
+.register-form-wrap {
+  width: 100%;
+  background: rgba(20, 40, 28, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(76, 223, 128, 0.18);
+  border-radius: 18px;
+  padding: 32px 32px 26px;
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* ── Cabecera ── */
-.glass-header {
-  padding: 24px 32px 18px;
-  background: linear-gradient(135deg, #004D40 0%, #00695C 60%, #00796B 100%);
-  text-align: center;
+@media (max-width: 600px) {
+  .register-form-wrap { padding: 24px 20px 20px; }
 }
-.header-brand {
+
+/* ── Alert ── */
+.register-alert {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  background: rgba(220, 50, 50, 0.18);
+  border: 1px solid rgba(220, 80, 80, 0.4);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #ff9999;
+  font-size: 14px;
+  margin-bottom: 18px;
 }
-.header-icon {
-  color: rgba(255, 255, 255, 0.92);
-}
-.header-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: white;
-  letter-spacing: 0.01em;
-}
-.header-divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.22);
-  margin: 0 0 12px;
-}
-.header-subtitle {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: white;
-  margin-bottom: 4px;
-}
-.header-desc {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.68);
-  margin: 0;
+.register-alert-close {
+  background: none;
+  border: none;
+  color: #ff9999;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  line-height: 1;
 }
 
-/* ── Cuerpo ── */
-.glass-body {
-  padding: 24px 32px 16px;
+/* ── Form ── */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-/* ── Botón principal ── */
+/* ── Fila de dos campos ── */
+.input-row {
+  display: flex;
+  gap: 12px;
+}
+.input-row .input-group {
+  flex: 1;
+}
+
+/* ── Input group ── */
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1.5px solid rgba(46, 180, 90, 0.35);
+  border-radius: 10px;
+  padding: 0 14px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.input-group:focus-within {
+  border-color: rgba(46, 200, 100, 0.7);
+  box-shadow: 0 0 0 3px rgba(46, 200, 100, 0.12), 0 0 12px rgba(46, 200, 80, 0.15);
+}
+
+.input-icon {
+  color: rgba(46, 200, 90, 0.8);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.register-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e8f5e9;
+  font-size: 15px;
+  padding: 14px 0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  min-width: 0;
+}
+.register-input::placeholder { color: rgba(200, 230, 210, 0.45); }
+
+/* Anular autofill amarillo de Chrome */
+.register-input:-webkit-autofill,
+.register-input:-webkit-autofill:hover,
+.register-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #e8f5e9;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.input-eye {
+  background: none;
+  border: none;
+  color: rgba(46, 200, 90, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: color 0.2s;
+}
+.input-eye:hover { color: rgba(46, 200, 90, 1); }
+
+/* ── Botón ── */
 .register-btn {
-  background: linear-gradient(90deg, #004D40 0%, #00695C 50%, #00796B 100%) !important;
-  color: white !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.04em !important;
-  font-size: 0.9rem !important;
-  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
-  box-shadow: 0 4px 16px rgba(0, 77, 64, 0.38) !important;
-}
-.register-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 77, 64, 0.45) !important;
-}
-.register-btn:active {
-  transform: translateY(0);
-}
-
-/* ── Pie ── */
-.glass-footer {
+  width: 100%;
+  padding: 15px;
+  margin-top: 4px;
+  background: linear-gradient(135deg, #2E8B57 0%, #3cb869 60%, #27a050 100%);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(46, 139, 87, 0.45), 0 0 24px rgba(46, 200, 80, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 32px 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  min-height: 52px;
 }
-.footer-text {
-  font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.5);
+.register-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #27a050 0%, #46d474 60%, #2E8B57 100%);
+  box-shadow: 0 6px 28px rgba(46, 200, 80, 0.6);
+  transform: translateY(-1px);
 }
-.footer-link {
-  color: #00695C !important;
-  font-weight: 600 !important;
-  font-size: 0.8rem !important;
+.register-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.register-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
 }
-.footer-link:hover {
-  background: rgba(0, 105, 92, 0.08) !important;
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Login link ── */
+.login-row {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.login-link {
+  color: #4cdf80;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.login-link:hover { color: #80ff9e; }
+
+@media (max-width: 480px) {
+  .input-row {
+    flex-direction: column;
+  }
 }
 </style>
