@@ -1,0 +1,157 @@
+/* ═══════════════════════════════════════════
+   Tema SENA · Paleta global
+   ═══════════════════════════════════════════ */
+
+:root {
+  --sena-bg-dark:        #06160d;
+  --sena-bg-deep:        #0a2014;
+  --sena-surface:        #0f2418;
+  --sena-surface-light:  #143020;
+  --sena-surface-hover:  #1a3a26;
+
+  --sena-green:          #4cdf80;
+  --sena-green-soft:     #80ff9e;
+  --sena-green-mid:      #2E8B57;
+  --sena-green-deep:     #00695C;
+  --sena-teal:           #26A69A;
+
+  --sena-text:           #e8f5e9;
+  --sena-text-muted:     rgba(200, 230, 210, 0.65);
+  --sena-text-faint:     rgba(200, 230, 210, 0.45);
+
+  --sena-border:         rgba(76, 223, 128, 0.18);
+  --sena-border-strong:  rgba(76, 223, 128, 0.35);
+}
+
+/* ── Fondo base ── */
+html, body {
+  background: var(--sena-bg-dark);
+  color: var(--sena-text);
+}
+
+/* Vuetify v-application root */
+.v-application {
+  background: var(--sena-bg-dark) !important;
+  color: var(--sena-text) !important;
+}
+
+/* ── Selección de texto ── */
+::selection {
+  background: rgba(76, 223, 128, 0.3);
+  color: #ffffff;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--sena-bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(76, 223, 128, 0.25);
+  border-radius: 6px;
+  border: 2px solid var(--sena-bg-deep);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(76, 223, 128, 0.45);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(76, 223, 128, 0.3) var(--sena-bg-deep);
+}
+
+/* ── Inputs Vuetify (sutiles ajustes) ── */
+.v-field--variant-outlined .v-field__outline {
+  --v-field-border-opacity: 0.25;
+}
+.v-field--variant-outlined.v-field--focused .v-field__outline {
+  --v-field-border-opacity: 0.6;
+}
+
+/* ── Cards Vuetify ── */
+.v-card {
+  background-color: var(--sena-surface) !important;
+  border: 1px solid var(--sena-border) !important;
+}
+
+/* Cards "translúcidas" para hero/destacados */
+.v-card.sena-glass {
+  background: rgba(20, 40, 28, 0.55) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--sena-border) !important;
+}
+
+/* ── Botones primarios con glow ── */
+.v-btn.v-btn--variant-elevated.bg-primary,
+.v-btn.v-btn--variant-flat.bg-primary {
+  box-shadow:
+    0 4px 18px rgba(76, 223, 128, 0.25),
+    0 0 16px rgba(76, 223, 128, 0.12);
+}
+
+/* ── Chips ── */
+.v-chip.bg-primary {
+  color: #061410 !important;
+  font-weight: 700;
+}
+
+/* ── Links genéricos ── */
+a {
+  color: var(--sena-green);
+}
+a:hover {
+  color: var(--sena-green-soft);
+}
+
+/* ── Divider ── */
+.v-divider {
+  border-color: var(--sena-border) !important;
+  opacity: 1;
+}
+
+/* ── Lists ── */
+.v-list {
+  background: var(--sena-surface) !important;
+  color: var(--sena-text) !important;
+}
+.v-list-item--active {
+  color: var(--sena-green) !important;
+}
+
+/* ── Menus / overlays ── */
+.v-overlay__content > .v-card,
+.v-menu > .v-overlay__content > .v-list {
+  background: var(--sena-surface-light) !important;
+  border: 1px solid var(--sena-border) !important;
+}
+
+/* ── Snackbars ── */
+.v-snackbar__wrapper {
+  background: var(--sena-surface-light) !important;
+  border: 1px solid var(--sena-border) !important;
+}
+
+/* ── Tablas ── */
+.v-data-table {
+  background: var(--sena-surface) !important;
+}
+.v-data-table th {
+  background: var(--sena-surface-light) !important;
+  color: var(--sena-green) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em;
+}
+.v-data-table tbody tr:hover {
+  background: rgba(76, 223, 128, 0.05) !important;
+}
+
+/* ── Helpers utilitarios ── */
+.sena-text-green { color: var(--sena-green) !important; }
+.sena-text-muted { color: var(--sena-text-muted) !important; }
+.sena-bg-surface { background: var(--sena-surface) !important; }
+.sena-bg-deep    { background: var(--sena-bg-deep) !important; }
