@@ -841,6 +841,9 @@ onBeforeUnmount(() => editor.value?.destroy())
 }
 
 /* ── Área de edición ── */
+.editor-content {
+  background: #ffffff;
+}
 .editor-content :deep(.ProseMirror) {
   min-height: 300px;
   max-height: 600px;
@@ -850,6 +853,7 @@ onBeforeUnmount(() => editor.value?.destroy())
   font-size: 15px;
   line-height: 1.75;
   color: #222;
+  background: #ffffff;
 }
 .editor-content :deep(.ProseMirror p.is-editor-empty:first-child::before) {
   content: attr(data-placeholder);
