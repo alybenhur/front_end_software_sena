@@ -208,9 +208,13 @@ async function handleRegister() {
 .input-row {
   display: flex;
   gap: 12px;
+  width: 100%;
+  overflow: hidden;
 }
 .input-row .input-group {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* ── Input group ── */
