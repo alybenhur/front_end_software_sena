@@ -9,6 +9,16 @@
         <!-- Canvas: red de constelación animada -->
         <canvas ref="canvasRef" class="bg-canvas" aria-hidden="true" />
 
+        <!-- Botón inicio noticias (esquina superior izquierda) -->
+        <NuxtLink to="/noticias" class="home-news-btn" aria-label="Ir al inicio de noticias">
+          <span class="home-news-icon">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+          </span>
+        </NuxtLink>
+
         <!-- Contenido centrado -->
         <div class="auth-layout">
           <div class="form-panel">
@@ -259,9 +269,91 @@ onUnmounted(() => {
   to   { opacity: 1; transform: translateX(0);    }
 }
 
+/* ── Botón inicio noticias (fijo esquina superior izquierda) ── */
+.home-news-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 20;
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 30, 20, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(76, 223, 128, 0.32);
+  border-radius: 24px;
+  color: #4cdf80;
+  text-decoration: none;
+  animation: homeIdleGlow 2.8s ease-in-out infinite;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+
+.home-news-btn::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 28px;
+  border: 2px solid rgba(76, 223, 128, 0.55);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.home-news-btn:hover {
+  background: rgba(18, 46, 28, 0.88);
+  border-color: rgba(76, 223, 128, 0.75);
+  transform: scale(1.1);
+  box-shadow:
+    0 0 28px rgba(76, 223, 128, 0.45),
+    0 8px 24px rgba(0, 0, 0, 0.45);
+  animation: none;
+}
+
+.home-news-btn:hover::after {
+  animation: homeRipple 0.55s ease-out forwards;
+}
+
+.home-news-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-news-btn:hover .home-news-icon {
+  animation: homeIconBounce 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
+@keyframes homeIdleGlow {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(76, 223, 128, 0.1), 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(76, 223, 128, 0.3), 0 4px 18px rgba(0, 0, 0, 0.35);
+  }
+}
+
+@keyframes homeRipple {
+  0%   { transform: scale(1); opacity: 0.75; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes homeIconBounce {
+  0%   { transform: translateY(0) rotate(0deg); }
+  28%  { transform: translateY(-6px) rotate(-8deg); }
+  55%  { transform: translateY(2px) rotate(4deg); }
+  78%  { transform: translateY(-3px) rotate(-2deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .brand-logo { animation: none; }
   .slide-up, .slide-in-right { animation: none; }
+  .home-news-btn { animation: none; }
+  .home-news-btn:hover { transform: none; }
+  .home-news-btn:hover::after { animation: none; }
+  .home-news-btn:hover .home-news-icon { animation: none; }
 }
 
 @media (max-width: 600px) {
