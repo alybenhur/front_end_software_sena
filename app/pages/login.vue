@@ -68,7 +68,7 @@
           <input v-model="remember" type="checkbox" class="remember-check" />
           <span>Recordarme</span>
         </label>
-        <NuxtLink to="/register" class="forgot-link">¿Olvidó su contraseña?</NuxtLink>
+        <NuxtLink to="/forgot-password" class="forgot-link">¿Olvidó su contraseña?</NuxtLink>
       </div>
 
       <!-- Botón -->
